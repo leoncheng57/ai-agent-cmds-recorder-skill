@@ -1,0 +1,10 @@
+{"timestamp":"2026-04-08T14:30:02Z","cmd":"git status","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:30:15Z","cmd":"npm install express","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:30:48Z","cmd":"npm run build","cwd":"/Users/dev/projects/my-app","exit":1,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:31:05Z","cmd":"npx tsc --noEmit","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:31:22Z","cmd":"npm run build","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:31:40Z","cmd":"npm test","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:32:01Z","cmd":"docker build -t my-app:latest .","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:32:30Z","cmd":"curl -s http://localhost:3000/health | jq .","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:32:45Z","cmd":"git add . && git commit -m \"feat: add health endpoint\"","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"timestamp":"2026-04-08T14:32:58Z","cmd":"git push origin main","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
