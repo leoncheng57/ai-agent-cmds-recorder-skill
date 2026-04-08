@@ -1,6 +1,6 @@
 # ai-agent-cmds-recorder-skill
 
-An agent skill that automatically records all terminal commands executed during AI coding sessions to a structured JSONL log file. Works with **Claude Code** and **OpenCode**.
+An agent skill that automatically records all terminal commands executed during AI coding sessions to a structured JSONL log file. Works with **Claude Code**, **OpenCode**, **Codex**, **Gemini CLI**, and **Cursor**.
 
 ## Why?
 
@@ -18,31 +18,122 @@ Existing solutions are standalone CLI tools that parse conversation logs after t
 
 ## Installation
 
-Copy or clone this repo into any supported skill location:
+This skill follows the [Agent Skills open standard](https://agentskills.io) (`SKILL.md` with YAML frontmatter). The universal install path works across most agents:
 
 ```bash
-# Global -- works in both Claude Code and OpenCode (recommended)
+# Universal -- works with OpenCode, Codex, Gemini CLI, and Claude Code
 git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
   ~/.agents/skills/ai-agent-cmds-recorder-skill
+```
 
-# OpenCode global
+Then add `.agent-cmd-history.jsonl` to your project's `.gitignore`.
+
+### Agent-specific installation
+
+<details>
+<summary><strong>OpenCode</strong></summary>
+
+```bash
+# Global (any of these work)
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  ~/.agents/skills/ai-agent-cmds-recorder-skill
+# or
 git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
   ~/.config/opencode/skills/ai-agent-cmds-recorder-skill
 
-# Claude Code global
+# Project-local
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  .opencode/skills/ai-agent-cmds-recorder-skill
+```
+
+OpenCode discovers `SKILL.md` files automatically and shows them in the available skills list. The agent loads the full skill on demand when it matches the description.
+
+</details>
+
+<details>
+<summary><strong>Claude Code</strong></summary>
+
+```bash
+# Global (any of these work)
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  ~/.agents/skills/ai-agent-cmds-recorder-skill
+# or
 git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
   ~/.claude/skills/ai-agent-cmds-recorder-skill
 
-# Project-local (OpenCode)
-git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
-  .opencode/skills/ai-agent-cmds-recorder-skill
-
-# Project-local (Claude Code)
+# Project-local
 git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
   .claude/skills/ai-agent-cmds-recorder-skill
 ```
 
-Then add `.agent-cmd-history.jsonl` to your project's `.gitignore`.
+Claude Code discovers skills via the `/skill` command and loads them on demand.
+
+</details>
+
+<details>
+<summary><strong>OpenAI Codex</strong></summary>
+
+```bash
+# Global
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  ~/.agents/skills/ai-agent-cmds-recorder-skill
+
+# Project-local
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  .agents/skills/ai-agent-cmds-recorder-skill
+```
+
+Codex discovers `SKILL.md` files in `.agents/skills/` directories from the repo root up to your working directory, plus the global `~/.agents/skills/` path.
+
+</details>
+
+<details>
+<summary><strong>Google Gemini CLI</strong></summary>
+
+```bash
+# Global (any of these work)
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  ~/.agents/skills/ai-agent-cmds-recorder-skill
+# or
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  ~/.gemini/skills/ai-agent-cmds-recorder-skill
+
+# Project-local
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  .gemini/skills/ai-agent-cmds-recorder-skill
+# or
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git \
+  .agents/skills/ai-agent-cmds-recorder-skill
+```
+
+Gemini CLI discovers skills at session start and activates them on demand via the `activate_skill` tool.
+
+</details>
+
+<details>
+<summary><strong>Cursor</strong></summary>
+
+Cursor uses its own `.mdc` rule format instead of the Agent Skills standard. To use this skill in Cursor, copy the SKILL.md content into a Cursor rule:
+
+```bash
+mkdir -p .cursor/rules
+```
+
+Create `.cursor/rules/ai-agent-cmds-recorder.mdc`:
+
+```
+---
+description: Use when starting any coding session to automatically record all terminal commands to a structured JSONL log file.
+alwaysApply: true
+---
+
+# AI Agent Command Recorder
+<!-- Copy the content of SKILL.md here (everything after the frontmatter) -->
+```
+
+Alternatively, you can reference the SKILL.md content manually by pasting it into Cursor's rule file. See [Cursor Rules docs](https://docs.cursor.com/context/rules) for details.
+
+</details>
 
 ## How It Works
 
@@ -98,12 +189,15 @@ cat .agent-cmd-history.jsonl | jq -r '.cmd' | sort -u
 
 ## Compatibility
 
-| Agent       | Supported | Skill Locations                                                        |
-|-------------|-----------|------------------------------------------------------------------------|
-| OpenCode    | Yes       | `.opencode/skills/`, `~/.config/opencode/skills/`, `~/.agents/skills/` |
-| Claude Code | Yes       | `.claude/skills/`, `~/.claude/skills/`, `~/.agents/skills/`            |
+| Agent         | Native Support | Install Path                                                           |
+|---------------|----------------|------------------------------------------------------------------------|
+| OpenCode      | Yes            | `.opencode/skills/`, `~/.config/opencode/skills/`, `~/.agents/skills/` |
+| Claude Code   | Yes            | `.claude/skills/`, `~/.claude/skills/`, `~/.agents/skills/`            |
+| OpenAI Codex  | Yes            | `.agents/skills/`, `~/.agents/skills/`                                 |
+| Gemini CLI    | Yes            | `.gemini/skills/`, `~/.gemini/skills/`, `~/.agents/skills/`            |
+| Cursor        | Manual         | `.cursor/rules/*.mdc` (requires converting to Cursor rule format)      |
 
-Any agent that supports the `SKILL.md` format with YAML frontmatter should work.
+All agents that support the [Agent Skills open standard](https://agentskills.io) (`SKILL.md` with YAML frontmatter) work natively. Cursor requires manual conversion to its `.mdc` rule format.
 
 ## Contributing
 
