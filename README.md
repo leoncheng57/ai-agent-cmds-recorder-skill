@@ -105,6 +105,19 @@ cat .agent-cmd-history.jsonl | jq -r '.cmd' | sort -u
 
 Any agent that supports the `SKILL.md` format with YAML frontmatter should work.
 
+## Contributing
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/) enforced by commitlint and Husky.
+
+**Release-triggering commit types:**
+- `feat:` -> minor release
+- `fix:` -> patch release
+- `!` suffix or `BREAKING CHANGE:` -> major release
+
+**Non-release commit types:** `docs:`, `chore:`, `refactor:`, `test:`, `style:`, `ci:`, `build:`
+
+Releases are automated via [semantic-release](https://github.com/semantic-release/semantic-release) on pushes to `main`.
+
 ## License
 
 [MIT](LICENSE)

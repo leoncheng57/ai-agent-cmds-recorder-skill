@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+if [ "$SKIP_COMMITLINT" = "1" ]; then
+  echo "Skipping commitlint because SKIP_COMMITLINT=1"
+  exit 0
+fi
+
+npx --no -- commitlint --edit "$1"

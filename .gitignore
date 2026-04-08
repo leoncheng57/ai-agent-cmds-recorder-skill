@@ -1,2 +1,5 @@
 # Don't commit actual command history logs
 .agent-cmd-history.jsonl
+
+# Dependencies
+node_modules/
