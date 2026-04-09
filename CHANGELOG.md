@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.0.3...v1.1.0) (2026-04-09)
+
+
+### Features
+
+* add bundled query commands (list-commands, list-sessions) ([fe1e3f3](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/commit/fe1e3f358f837682717b54c8ade51e14b1bd8b39))
+
 ## [1.0.3](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.0.2...v1.0.3) (2026-04-09)
 
 

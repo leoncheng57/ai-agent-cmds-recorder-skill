@@ -1,6 +1,6 @@
 {
   "name": "ai-agent-cmds-recorder-skill",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Agent skill that automatically records all terminal commands to JSONL. Works with Claude Code and OpenCode.",
   "private": true,
   "scripts": {
