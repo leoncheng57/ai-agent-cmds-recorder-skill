@@ -152,15 +152,15 @@ The skill is a single `SKILL.md` file containing instructions the agent follows 
 Each line in `.agent-cmd-history.jsonl` is a JSON object:
 
 ```json
-{"timestamp":"2026-04-08T14:30:02Z","cmd":"git status","cwd":"/Users/dev/projects/my-app","exit":0,"session":"2026-04-08-a3f2","agent":"opencode"}
+{"cmd":"git status","cwd":"/Users/dev/projects/my-app","exit":0,"timestamp":"2026-04-08T14:30:02Z","session":"2026-04-08-a3f2","agent":"opencode"}
 ```
 
 | Field       | Type   | Required | Description                                  |
 |-------------|--------|----------|----------------------------------------------|
-| `timestamp` | string | yes      | ISO 8601 UTC timestamp of command execution  |
 | `cmd`       | string | yes      | The full command string as executed           |
 | `cwd`       | string | yes      | Working directory at time of execution        |
 | `exit`      | number | no       | Exit code. Null/omitted if unknown           |
+| `timestamp` | string | yes      | ISO 8601 UTC timestamp of command execution  |
 | `session`   | string | yes      | Unique session ID (date + random hex suffix) |
 | `agent`     | string | yes      | `"opencode"`, `"claude-code"`, or `"unknown"`|
 

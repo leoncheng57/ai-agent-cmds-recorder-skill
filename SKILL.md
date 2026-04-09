@@ -30,16 +30,16 @@ At the **start of every session**, do the following:
 **After EVERY Bash tool invocation**, immediately append one JSONL entry to `.agent-cmd-history.jsonl`.
 
 For each command, capture:
-- `timestamp` -- current UTC time in ISO 8601 format
 - `cmd` -- the full command string as executed
 - `cwd` -- working directory at time of execution
 - `exit` -- exit code (0 = success, non-zero = failure, null if unknown)
+- `timestamp` -- current UTC time in ISO 8601 format
 - `session` -- the session ID generated during initialization
 - `agent` -- the agent type detected during initialization
 
 **Append using:**
 ```bash
-echo '{"timestamp":"<ISO8601>","cmd":"<command>","cwd":"<dir>","exit":<code>,"session":"<id>","agent":"<type>"}' >> .agent-cmd-history.jsonl
+echo '{"cmd":"<command>","cwd":"<dir>","exit":<code>,"timestamp":"<ISO8601>","session":"<id>","agent":"<type>"}' >> .agent-cmd-history.jsonl
 ```
 
 ### Recording Rules
@@ -65,9 +65,9 @@ When the **session ends** or the user asks to **"show commands"** / **"list comm
 
 | Field       | Type   | Required | Description                                  |
 |-------------|--------|----------|----------------------------------------------|
-| `timestamp` | string | yes      | ISO 8601 UTC timestamp of command execution  |
 | `cmd`       | string | yes      | The full command string as executed           |
 | `cwd`       | string | yes      | Working directory at time of execution        |
 | `exit`      | number | no       | Exit code. Null/omitted if unknown           |
+| `timestamp` | string | yes      | ISO 8601 UTC timestamp of command execution  |
 | `session`   | string | yes      | Unique session ID (date + random hex suffix) |
 | `agent`     | string | yes      | `"opencode"`, `"claude-code"`, or `"unknown"`|
