@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.0.1...v1.0.2) (2026-04-09)
+
+
+### Bug Fixes
+
+* reorder JSONL fields to put cmd first for readability ([6d45119](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/commit/6d451199d715acdf9cec44d5ebd3972f9122b5fd))
+
 ## [1.0.1](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.0.0...v1.0.1) (2026-04-09)
 
 
