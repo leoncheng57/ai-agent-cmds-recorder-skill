@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.0.0...v1.0.1) (2026-04-09)
+
+
+### Bug Fixes
+
+* test patch release trigger ([b9cb2ab](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/commit/b9cb2abc8f5518792dffdb9f9c9aa630814d36c5))
+
 # 1.0.0 (2026-04-08)
 
 
