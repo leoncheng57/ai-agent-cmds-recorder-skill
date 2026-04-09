@@ -40,6 +40,9 @@ module.exports = {
       },
     ],
 
+    // Creates a GitHub Release with release notes.
+    "@semantic-release/github",
+
     // Commits the updated files and creates a git tag.
     // The [skip ci] in the message prevents the release commit from re-triggering CI.
     [
