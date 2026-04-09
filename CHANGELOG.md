@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.0.2...v1.0.3) (2026-04-09)
+
+
+### Bug Fixes
+
+* add @semantic-release/github plugin to create GitHub Releases ([0992933](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/commit/0992933a5d61b9692f457d9da72cb99896b59b2d))
+
 ## [1.0.2](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.0.1...v1.0.2) (2026-04-09)
 
 
