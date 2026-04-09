@@ -5,7 +5,7 @@ description: Use when starting any coding session to automatically record all te
 
 # AI Agent Command Recorder
 
-Automatically record every Bash/terminal command you execute during a session to a structured JSONL log file in the project directory. This is a pure-instruction skill -- no scripts, no dependencies. You use your built-in file tools to append entries.
+Automatically record every Bash/terminal command you execute during a session to a structured JSONL log file in the project directory. Recording is instruction-driven -- you use your built-in file tools to append entries. Bundled shell scripts provide querying commands.
 
 ## Session Initialization
 
@@ -60,6 +60,32 @@ When the **session ends** or the user asks to **"show commands"** / **"list comm
    Session <session-id>: <total> commands (<succeeded> succeeded, <failed> failed)
    Log: .agent-cmd-history.jsonl
    ```
+
+## Bundled Commands
+
+This skill includes shell scripts in `bin/` for querying the log file. Resolve the skill's install directory and run them from there. Both require `jq`.
+
+### List Commands for Current Session
+
+When the user asks to **"list commands"**, **"show history"**, or **"what commands did you run"**, run:
+
+```bash
+bash <SKILL_DIR>/bin/list-commands.sh <SESSION_ID> .agent-cmd-history.jsonl
+```
+
+Replace `<SKILL_DIR>` with the absolute path to this skill's directory and `<SESSION_ID>` with the current session ID.
+
+This prints every command from the session with its sequence number, timestamp, exit code, and working directory.
+
+### List All Sessions
+
+When the user asks to **"list sessions"**, **"show sessions"**, or **"what sessions are recorded"**, run:
+
+```bash
+bash <SKILL_DIR>/bin/list-sessions.sh .agent-cmd-history.jsonl
+```
+
+This prints a table of all session IDs with their agent type, command count, and time range.
 
 ## JSONL Schema Reference
 

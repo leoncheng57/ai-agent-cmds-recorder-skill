@@ -17,7 +17,7 @@ When AI coding agents execute shell commands, those commands don't appear in you
 
 Existing solutions are standalone CLI tools that parse conversation logs after the fact. They require separate installation, don't write local project files, and don't track sessions.
 
-**This skill takes a different approach**: it's a pure agent skill (`SKILL.md`) that instructs the agent to record commands *as it runs them*, directly into your project directory. No external tools, no dependencies, no post-processing.
+**This skill takes a different approach**: it's an agent skill (`SKILL.md`) that instructs the agent to record commands *as it runs them*, directly into your project directory. Bundled shell scripts let you query the log — list commands from a session, view all sessions, and more. No external tools, no runtime dependencies beyond `jq`.
 
 ## Installation
 
@@ -140,7 +140,7 @@ Alternatively, you can reference the SKILL.md content manually by pasting it int
 
 ## How It Works
 
-The skill is a single `SKILL.md` file containing instructions the agent follows using its built-in tools. No scripts, no runtime dependencies.
+The skill is a `SKILL.md` file containing instructions the agent follows using its built-in tools, plus bundled shell scripts for querying the log.
 
 **Three phases:**
 
@@ -149,6 +149,8 @@ The skill is a single `SKILL.md` file containing instructions the agent follows 
 2. **Command Recording** -- After every Bash command, the agent appends a JSONL entry to `.agent-cmd-history.jsonl` with the command, timestamp, exit code, working directory, session ID, and agent type.
 
 3. **Session Summary** -- At session end (or on request), the agent prints a summary of commands run, succeeded, and failed.
+
+**Bundled commands** in `bin/` let you (or the agent) query the log file directly — list commands from a session, view all recorded sessions, etc.
 
 ## Output Format
 
@@ -168,6 +170,75 @@ Each line in `.agent-cmd-history.jsonl` is a JSON object:
 | `agent`     | string | yes      | `"opencode"`, `"claude-code"`, or `"unknown"`|
 
 See [`examples/sample-output.jsonl`](examples/sample-output.jsonl) for a full example.
+
+## Bundled Commands
+
+The `bin/` directory includes shell scripts for querying the log file. Both require [`jq`](https://jqlang.github.io/jq/).
+
+### List commands from a session
+
+```bash
+# List all commands from a specific session
+bash bin/list-commands.sh <session-id> .agent-cmd-history.jsonl
+```
+
+Output:
+
+```
+    1  [2026-04-08T14:30:02Z] [exit 0] git status
+      cwd: /Users/dev/projects/my-app
+    2  [2026-04-08T14:30:15Z] [exit 0] npm install express
+      cwd: /Users/dev/projects/my-app
+    3  [2026-04-08T14:30:48Z] [exit 1] npm run build
+      cwd: /Users/dev/projects/my-app
+
+Total: 3 command(s) in session 2026-04-08-a3f2
+```
+
+### List all sessions
+
+```bash
+# List all recorded sessions with metadata
+bash bin/list-sessions.sh .agent-cmd-history.jsonl
+```
+
+Output:
+
+```
+Sessions in .agent-cmd-history.jsonl:
+
+  SESSION ID                AGENT             CMDS  TIME RANGE
+  ----------                -----             ----  ----------
+  2026-04-08-a3f2           opencode            10  2026-04-08T14:30:02Z → 2026-04-08T14:32:58Z
+
+Total: 1 session(s)
+```
+
+Both scripts default to `.agent-cmd-history.jsonl` in the current directory if the log file path is omitted.
+
+## Testing Locally
+
+You can test the bundled scripts against the included sample data:
+
+```bash
+# Clone the repo
+git clone https://github.com/leoncheng57/ai-agent-cmds-recorder-skill.git
+cd ai-agent-cmds-recorder-skill
+
+# Test list-sessions against the sample log
+bash bin/list-sessions.sh examples/sample-output.jsonl
+
+# Test list-commands for a specific session
+bash bin/list-commands.sh 2026-04-08-a3f2 examples/sample-output.jsonl
+```
+
+To test the full skill (recording + querying) end-to-end:
+
+1. Install the skill into your agent (see [Installation](#installation))
+2. Start a new agent session and activate the skill
+3. Run a few commands — the agent should append entries to `.agent-cmd-history.jsonl`
+4. Ask the agent to "list commands" or "show sessions" — it should run the bundled scripts
+5. Verify the log file manually: `cat .agent-cmd-history.jsonl | jq .`
 
 ## Working With the Log
 
