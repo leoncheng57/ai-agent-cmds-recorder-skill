@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# list-commands.sh — List all terminal commands from a specific agent session.
+# list-commands.sh — List all entries (bash commands + MCP tool calls) from a specific agent session.
 #
 # Usage:
 #   list-commands.sh <session-id> [logfile]
@@ -31,19 +31,31 @@ if ! command -v jq &>/dev/null; then
 fi
 
 COUNT=0
+BASH_COUNT=0
+MCP_COUNT=0
 while IFS= read -r line; do
   COUNT=$((COUNT + 1))
-  CMD=$(echo "$line" | jq -r '.cmd')
-  EXIT=$(echo "$line" | jq -r '.exit // "?"')
+  TYPE=$(echo "$line" | jq -r '.type // "bash"')
   TS=$(echo "$line" | jq -r '.timestamp')
-  CWD=$(echo "$line" | jq -r '.cwd')
-  printf "  %3d  [%s] [exit %s] %s\n      cwd: %s\n" "$COUNT" "$TS" "$EXIT" "$CMD" "$CWD"
+
+  if [ "$TYPE" = "mcp" ]; then
+    MCP_COUNT=$((MCP_COUNT + 1))
+    TOOL=$(echo "$line" | jq -r '.tool')
+    PARAMS=$(echo "$line" | jq -r '.params | join(", ")')
+    printf "  %3d  [%s] [mcp:%s] params: %s\n" "$COUNT" "$TS" "$TOOL" "$PARAMS"
+  else
+    BASH_COUNT=$((BASH_COUNT + 1))
+    CMD=$(echo "$line" | jq -r '.cmd')
+    EXIT=$(echo "$line" | jq -r '.exit // "?"')
+    CWD=$(echo "$line" | jq -r '.cwd')
+    printf "  %3d  [%s] [bash] [exit %s] %s\n      cwd: %s\n" "$COUNT" "$TS" "$EXIT" "$CMD" "$CWD"
+  fi
 done < <(jq -c "select(.session == \"$SESSION_ID\")" "$LOGFILE")
 
 if [ "$COUNT" -eq 0 ]; then
-  echo "No commands found for session: $SESSION_ID" >&2
+  echo "No entries found for session: $SESSION_ID" >&2
   exit 1
 fi
 
 echo ""
-echo "Total: $COUNT command(s) in session $SESSION_ID"
+echo "Total: $COUNT entries ($BASH_COUNT bash, $MCP_COUNT mcp) in session $SESSION_ID"

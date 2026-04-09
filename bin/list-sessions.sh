@@ -25,8 +25,8 @@ fi
 
 echo "Sessions in $LOGFILE:"
 echo ""
-printf "  %-24s  %-14s  %6s  %s\n" "SESSION ID" "AGENT" "CMDS" "TIME RANGE"
-printf "  %-24s  %-14s  %6s  %s\n" "----------" "-----" "----" "----------"
+printf "  %-24s  %-14s  %6s  %6s  %6s  %s\n" "SESSION ID" "AGENT" "TOTAL" "BASH" "MCP" "TIME RANGE"
+printf "  %-24s  %-14s  %6s  %6s  %6s  %s\n" "----------" "-----" "-----" "----" "---" "----------"
 
 jq -sr '
   group_by(.session)
@@ -34,14 +34,16 @@ jq -sr '
       session: .[0].session,
       agent: .[0].agent,
       count: length,
+      bash: [.[] | select((.type // "bash") == "bash")] | length,
+      mcp: [.[] | select(.type == "mcp")] | length,
       first: (map(.timestamp) | sort | first),
       last: (map(.timestamp) | sort | last)
     })
   | sort_by(.first)
   | .[]
-  | "\(.session)\t\(.agent)\t\(.count)\t\(.first) → \(.last)"
-' "$LOGFILE" | while IFS=$'\t' read -r session agent count range; do
-  printf "  %-24s  %-14s  %6s  %s\n" "$session" "$agent" "$count" "$range"
+  | "\(.session)\t\(.agent)\t\(.count)\t\(.bash)\t\(.mcp)\t\(.first) → \(.last)"
+' "$LOGFILE" | while IFS=$'\t' read -r session agent count bash mcp range; do
+  printf "  %-24s  %-14s  %6s  %6s  %6s  %s\n" "$session" "$agent" "$count" "$bash" "$mcp" "$range"
 done
 
 echo ""
