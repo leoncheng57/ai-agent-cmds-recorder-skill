@@ -1,5 +1,8 @@
 # ai-agent-cmds-recorder-skill
 
+[![GitHub release](https://img.shields.io/github/v/release/leoncheng57/ai-agent-cmds-recorder-skill)](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 An agent skill that automatically records all terminal commands executed during AI coding sessions to a structured JSONL log file. Works with **Claude Code**, **OpenCode**, **Codex**, **Gemini CLI**, and **Cursor**.
 
 ## Why?
