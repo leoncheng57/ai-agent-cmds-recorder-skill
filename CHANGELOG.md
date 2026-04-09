@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.1.0...v1.2.0) (2026-04-09)
+
+
+### Features
+
+* add MCP tool call recording to extend bash-only command history ([1a9d523](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/commit/1a9d523409538ceb4462f36b2f91df61cb13ac29))
+
 # [1.1.0](https://github.com/leoncheng57/ai-agent-cmds-recorder-skill/compare/v1.0.3...v1.1.0) (2026-04-09)
 
 
